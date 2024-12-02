@@ -19,7 +19,6 @@ model Ticket {
   description String   @db.Text
   status      Status   @default(OPEN)
   priority    Priority
-  dueDate     DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
