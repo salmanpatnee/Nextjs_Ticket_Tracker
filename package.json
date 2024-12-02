@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.0.1",
+    "@radix-ui/themes": "^3.1.6",
     "classnames": "^2.5.1",
     "next": "14.2.18",
     "prisma": "^6.0.1",
