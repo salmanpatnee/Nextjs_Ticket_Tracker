@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { Button, TextArea, TextField, Select } from "@radix-ui/themes";
 
@@ -6,7 +7,6 @@ const CreateTicketPage = () => {
     <div className="max-w-xl space-y-5">
       <TextField.Root placeholder="Title" />
       <TextArea placeholder="Description" />
-      <div className="w-full">
         <Select.Root size="2" defaultValue="MEDIUM">
           <Select.Trigger placeholder="Priority"/>
           <Select.Content>
@@ -16,7 +16,7 @@ const CreateTicketPage = () => {
             <Select.Item value="CRITICAL">Critical</Select.Item>
           </Select.Content>
         </Select.Root>
-      </div>
+      
       <Button>Add new ticket</Button>
     </div>
   );
