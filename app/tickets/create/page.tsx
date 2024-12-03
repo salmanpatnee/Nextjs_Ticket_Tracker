@@ -28,6 +28,17 @@ const CreateTicketPage = () => {
     resolver: zodResolver(createTicketSchema),
   });
   const router = useRouter();
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setSubmitting(true);
+      await axios.post(`/api/tickets`, data);
+      router.push(`/tickets`);
+    } catch (error) {
+      setSubmitting(false);
+      setError("Unexpected error occured.");
+    }
+  })
   return (
     <div className="max-w-xl">
       {error && (
@@ -40,16 +51,7 @@ const CreateTicketPage = () => {
       )}
       <form
         className="space-y-5"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setSubmitting(true);
-            await axios.post(`/api/tickets`, data);
-            router.push(`/tickets`);
-          } catch (error) {
-            setSubmitting(false);
-            setError("Unexpected error occured.");
-          }
-        })}
+        onSubmit={onSubmit}
       >
         <TextField.Root placeholder="Title" {...register("title")} />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
