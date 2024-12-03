@@ -1,5 +1,5 @@
 "use client";
-import { Button, TextField, Select, Callout, Text } from "@radix-ui/themes";
+import { Button, TextField, Select, Callout } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { useForm, Controller } from "react-hook-form";
@@ -38,7 +38,7 @@ const CreateTicketPage = () => {
       setSubmitting(false);
       setError("Unexpected error occured.");
     }
-  })
+  });
   return (
     <div className="max-w-xl">
       {error && (
@@ -49,10 +49,7 @@ const CreateTicketPage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-5"
-        onSubmit={onSubmit}
-      >
+      <form className="space-y-5" onSubmit={onSubmit}>
         <TextField.Root placeholder="Title" {...register("title")} />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
