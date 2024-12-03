@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
+import { createTicketSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
-
-const createTicketSchema = z.object({
-    title: z.string().min(1, "Title is required.").max(255),
-    description: z.string().min(1, 'Description is required.'),
-    priority: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
-});
 
 
 export const POST = async (request: NextRequest) => {
