@@ -3,6 +3,7 @@ import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import prisma from "@/prisma/client";
 import TicketStatusBadge from "../components/TicketStatusBadge";
+import TicketPriorityBadge from "../components/TicketPriorityBadge";
 const TicketsPage = async () => {
   const tickets = await prisma.ticket.findMany();
 
@@ -34,15 +35,15 @@ const TicketsPage = async () => {
               <Table.Cell>
                 {ticket.title}
                 <div className="block md:hidden">
-                  <TicketStatusBadge status={ticket.status} /> -{" "}
-                  {ticket.priority}
+                  <TicketStatusBadge status={ticket.status} />{" "}
+                  <TicketPriorityBadge priority={ticket.priority} />
                 </div>
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
                 <TicketStatusBadge status={ticket.status} />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {ticket.priority}
+                <TicketPriorityBadge priority={ticket.priority} />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
                 {ticket.createdAt.toDateString()}
