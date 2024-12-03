@@ -1,12 +1,13 @@
 'use client'
-import React from "react";
-import { Button, TextArea, TextField, Select } from "@radix-ui/themes";
+import { Button, TextField, Select } from "@radix-ui/themes";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
 
 const CreateTicketPage = () => {
   return (
     <div className="max-w-xl space-y-5">
       <TextField.Root placeholder="Title" />
-      <TextArea placeholder="Description" />
+      <SimpleMDE placeholder="Description" />
         <Select.Root size="2" defaultValue="MEDIUM">
           <Select.Trigger placeholder="Priority"/>
           <Select.Content>
