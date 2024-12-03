@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import classNames from "classNames";
+import classNames from "classnames";
 import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 
