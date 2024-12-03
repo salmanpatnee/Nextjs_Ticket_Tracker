@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Button, TextField, Select, Callout, Text } from "@radix-ui/themes";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -10,29 +10,34 @@ import { MdErrorOutline } from "react-icons/md";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createTicketSchema } from "@/app/validationSchemas";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 const CreateTicketPage = () => {
-
   type TicketForm = z.infer<typeof createTicketSchema>;
 
   const [error, setError] = useState("");
 
-  const { register, control, handleSubmit, formState:{errors} } = useForm<TicketForm>({
-    resolver: zodResolver(createTicketSchema)
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TicketForm>({
+    resolver: zodResolver(createTicketSchema),
   });
   const router = useRouter();
   return (
     <div className="max-w-xl">
-        
       {error && (
         <Callout.Root className="mb-3" color="red">
-        <Callout.Icon>
-        <MdErrorOutline />
-        </Callout.Icon>
-        <Callout.Text>{error}</Callout.Text>
-      </Callout.Root>
+          <Callout.Icon>
+            <MdErrorOutline />
+          </Callout.Icon>
+          <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>
       )}
-      <form className="space-y-5"
+      <form
+        className="space-y-5"
         onSubmit={handleSubmit(async (data) => {
           try {
             await axios.post(`/api/tickets`, data);
@@ -43,7 +48,7 @@ const CreateTicketPage = () => {
         })}
       >
         <TextField.Root placeholder="Title" {...register("title")} />
-        {errors.title && <Text color="red" as="p">{errors.title.message}</Text>}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -51,7 +56,8 @@ const CreateTicketPage = () => {
             <SimpleMDE placeholder="Description" {...field} />
           )}
         />
-        {errors.description && <Text color="red" as="p">{errors.description.message}</Text>}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
+
         <Controller
           name="priority"
           control={control}
@@ -72,7 +78,7 @@ const CreateTicketPage = () => {
             </Select.Root>
           )}
         />
-        {errors.priority && <Text color="red" as="p">{errors.priority.message}</Text>}
+        <ErrorMessage>{errors.priority?.message}</ErrorMessage>
 
         <Button>Add new ticket</Button>
       </form>
