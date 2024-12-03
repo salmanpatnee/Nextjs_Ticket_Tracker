@@ -11,11 +11,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createTicketSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 const CreateTicketPage = () => {
   type TicketForm = z.infer<typeof createTicketSchema>;
 
   const [error, setError] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const {
     register,
@@ -40,9 +42,11 @@ const CreateTicketPage = () => {
         className="space-y-5"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setSubmitting(true);
             await axios.post(`/api/tickets`, data);
             router.push(`/tickets`);
           } catch (error) {
+            setSubmitting(false);
             setError("Unexpected error occured.");
           }
         })}
@@ -80,7 +84,9 @@ const CreateTicketPage = () => {
         />
         <ErrorMessage>{errors.priority?.message}</ErrorMessage>
 
-        <Button>Add new ticket</Button>
+        <Button disabled={isSubmitting}>
+          Add new ticket {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
