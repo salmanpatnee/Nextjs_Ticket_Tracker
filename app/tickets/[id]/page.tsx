@@ -1,5 +1,4 @@
-import TicketPriorityBadge from "@/app/components/TicketPriorityBadge";
-import TicketStatusBadge from "@/app/components/TicketStatusBadge";
+import { TicketPriorityBadge, TicketStatusBadge } from "@/app/components/";
 import prisma from "@/prisma/client";
 import { Card, Flex, Heading } from "@radix-ui/themes";
 import { notFound } from "next/navigation";

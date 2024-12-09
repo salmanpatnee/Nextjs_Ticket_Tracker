@@ -1,15 +1,10 @@
-import React from "react";
-import { Table } from "@radix-ui/themes";
+import { Link, TicketPriorityBadge, TicketStatusBadge } from "@/app/components";
 import prisma from "@/prisma/client";
-import TicketStatusBadge from "../components/TicketStatusBadge";
-import TicketPriorityBadge from "../components/TicketPriorityBadge";
-import delay from "delay";
+import { Table } from "@radix-ui/themes";
 import TicketActions from "./TicketActions";
-import Link from "../components/Link";
 const TicketsPage = async () => {
 
   const tickets = await prisma.ticket.findMany();
-  await delay(2000);
   
   return (
     <div>
