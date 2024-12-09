@@ -1,14 +1,17 @@
 import React from "react";
-import { Button, Table } from "@radix-ui/themes";
-import Link from "next/link";
+import { Table } from "@radix-ui/themes";
 import prisma from "@/prisma/client";
 import TicketStatusBadge from "../components/TicketStatusBadge";
 import TicketPriorityBadge from "../components/TicketPriorityBadge";
 import delay from "delay";
 import TicketActions from "./TicketActions";
+import Link from "next/link";
+
 const TicketsPage = async () => {
+
   const tickets = await prisma.ticket.findMany();
-  await delay(1000);
+  await delay(2000);
+  
   return (
     <div>
       <TicketActions />
@@ -31,7 +34,9 @@ const TicketsPage = async () => {
           {tickets.map((ticket) => (
             <Table.Row key={ticket.id}>
               <Table.Cell>
-                {ticket.title}
+                <Link href={`/tickets/${ticket.id}`}>
+                  {ticket.title}
+                </Link>
                 <div className="block md:hidden">
                   <TicketStatusBadge status={ticket.status} />{" "}
                   <TicketPriorityBadge priority={ticket.priority} />
