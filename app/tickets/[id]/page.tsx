@@ -37,7 +37,7 @@ const TicketDetailPage = async ({ params }: Props) => {
         <Button>
             <Pencil2Icon/>
           <Link href={`/tickets/${ticket.id}/edit`}>
-            Edit issue
+            Edit ticket
           </Link>
         </Button>
       </Box>
