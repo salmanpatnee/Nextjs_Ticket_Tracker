@@ -5,8 +5,7 @@ import TicketStatusBadge from "../components/TicketStatusBadge";
 import TicketPriorityBadge from "../components/TicketPriorityBadge";
 import delay from "delay";
 import TicketActions from "./TicketActions";
-import Link from "next/link";
-
+import Link from "../components/Link";
 const TicketsPage = async () => {
 
   const tickets = await prisma.ticket.findMany();
