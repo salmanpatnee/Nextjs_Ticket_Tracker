@@ -13,7 +13,8 @@ import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
-const CreateTicketPage = () => {
+const CreateTicketPage =  () => {
+
   type TicketForm = z.infer<typeof createTicketSchema>;
 
   const [error, setError] = useState("");
@@ -39,6 +40,7 @@ const CreateTicketPage = () => {
       setError("Unexpected error occured.");
     }
   });
+
   return (
     <div className="max-w-xl">
       {error && (
