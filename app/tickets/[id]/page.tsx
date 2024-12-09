@@ -1,4 +1,7 @@
+import TicketPriorityBadge from "@/app/components/TicketPriorityBadge";
+import TicketStatusBadge from "@/app/components/TicketStatusBadge";
 import prisma from "@/prisma/client";
+import { Card, Flex, Heading } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -19,10 +22,13 @@ const TicketDetailPage = async ({ params }: Props) => {
   }
 
   return <div>
-    <p>{ticket.title}</p>
-    <p>{ticket.status}</p>
-    <p>{ticket.priority}</p>
-    <p>{ticket.createdAt.toDateString()}</p>
+    <Heading>{ticket.title}</Heading>
+    <Flex gap="3" my="2">
+      <TicketStatusBadge status={ticket.status}/>
+      <TicketPriorityBadge priority={ticket.priority}/>
+      <p>{ticket.createdAt.toDateString()}</p>
+    </Flex>
+    <Card>{ticket.description}</Card>
   </div>;
 };
 
