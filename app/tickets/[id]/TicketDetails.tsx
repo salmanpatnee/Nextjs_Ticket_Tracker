@@ -12,7 +12,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
         <TicketPriorityBadge priority={ticket.priority} />
         <p>{ticket.createdAt.toDateString()}</p>
       </Flex>
-      <Card className="prose" mt="5">
+      <Card className="prose max-w-full" mt="5">
         <ReactMarkdown>{ticket.description}</ReactMarkdown>
       </Card>
     </>
