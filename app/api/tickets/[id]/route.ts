@@ -1,0 +1,42 @@
+import { ticketSchema } from "@/app/validationSchemas";
+import prisma from "@/prisma/client";
+import { NextRequest, NextResponse } from "next/server";
+
+export const PATCH = async (
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+  const body = await request.json();
+
+  const validation = ticketSchema.safeParse(body);
+
+  if (!validation.success) {
+    return NextResponse.json(validation.error.format(), {
+      status: 400,
+    });
+  }
+
+  const ticket = await prisma.ticket.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!ticket) {
+    return NextResponse.json(
+      { error: "Invalid ticket" },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  const updatedTicket = await prisma.ticket.update({
+    where: { id: parseInt(params.id) },
+    data: {
+      title: body.title,
+      description: body.description,
+      priority: body.priority,
+    },
+  });
+
+  return NextResponse.json(updatedTicket, { status: 200 });
+};
