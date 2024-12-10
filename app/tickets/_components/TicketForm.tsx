@@ -38,7 +38,12 @@ const TicketForm =  ({ticket}: Props) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post(`/api/tickets`, data);
+      if(ticket) {
+          await axios.patch(`/api/tickets/${ticket.id}`, data);
+      } else {
+        await axios.post(`/api/tickets`, data);
+      }
+        
       router.push(`/tickets`);
     } catch (error) {
       setSubmitting(false);
@@ -91,7 +96,7 @@ const TicketForm =  ({ticket}: Props) => {
         <ErrorMessage>{errors.priority?.message}</ErrorMessage>
 
         <Button disabled={isSubmitting}>
-          Add new ticket {isSubmitting && <Spinner />}
+          {ticket ? 'Update Ticket' : 'Add new Ticket'} {isSubmitting && <Spinner />}
         </Button>
       </form>
     </div>
