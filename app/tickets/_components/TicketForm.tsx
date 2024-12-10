@@ -45,6 +45,7 @@ const TicketForm =  ({ticket}: Props) => {
       }
         
       router.push(`/tickets`);
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError("Unexpected error occured.");
