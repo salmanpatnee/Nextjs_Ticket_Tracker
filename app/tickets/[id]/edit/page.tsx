@@ -1,7 +1,12 @@
-import React from "react";
-import TicketForm from "../../_components/TicketForm";
 import prisma from "@/prisma/client";
+import dynamic from 'next/dynamic';
 import { notFound } from "next/navigation";
+import TicketFormSkeleton from '@/app/tickets/_components/TicketFormSkeleton';
+
+const TicketForm = dynamic(() => import('@/app/tickets/_components/TicketForm'), {
+  ssr: false, 
+  loading: () => <TicketFormSkeleton/>
+} );
 
 interface Props {
   params: { id: string };

@@ -1,5 +1,10 @@
-import React from 'react'
-import TicketForm from '../_components/TicketForm'
+import dynamic from 'next/dynamic';
+import TicketFormSkeleton from '@/app/tickets/_components/TicketFormSkeleton';
+
+const TicketForm = dynamic(() => import('@/app/tickets/_components/TicketForm'), {
+  ssr: false, 
+  loading: () => <TicketFormSkeleton/>
+} );
 
 const CreateTicketPage = () => {
   return (
