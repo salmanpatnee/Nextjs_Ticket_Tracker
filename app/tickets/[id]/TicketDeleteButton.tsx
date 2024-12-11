@@ -1,9 +1,12 @@
 "use client";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
-import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const TicketDeleteButton = ({ ticketId }: { ticketId: number }) => {
+  const router = useRouter();
+
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
@@ -12,7 +15,7 @@ const TicketDeleteButton = ({ ticketId }: { ticketId: number }) => {
           Delete
         </Button>
       </AlertDialog.Trigger>
-      <AlertDialog.Content>v
+      <AlertDialog.Content>
         <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
         <AlertDialog.Description>
           Are you sure? You want to delete this ticket?
@@ -24,7 +27,14 @@ const TicketDeleteButton = ({ ticketId }: { ticketId: number }) => {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button color="red">
+            <Button
+              color="red"
+              onClick={async () => {
+                await axios.delete(`/api/tickets/${ticketId}`);
+                router.push(`/tickets`);
+                router.refresh();
+              }}
+            >
               Delete
             </Button>
           </AlertDialog.Action>
