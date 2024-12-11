@@ -44,7 +44,7 @@ const TicketForm =  ({ticket}: Props) => {
         await axios.post(`/api/tickets`, data);
       }
         
-      router.push(`/tickets`);
+      router.push(`/tickets/list`);
       router.refresh();
     } catch (error) {
       setSubmitting(false);

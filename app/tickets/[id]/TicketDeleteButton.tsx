@@ -15,7 +15,7 @@ const TicketDeleteButton = ({ ticketId }: { ticketId: number }) => {
     try {
       setDeleting(true);
       await axios.delete(`/api/tickets/${ticketId}`);
-      router.push(`/tickets`);
+      router.push(`/tickets/list`);
       router.refresh();
     } catch (error) {
       setDeleting(false);

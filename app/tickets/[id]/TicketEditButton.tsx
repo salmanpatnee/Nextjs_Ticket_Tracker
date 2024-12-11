@@ -6,7 +6,7 @@ const TicketEditButton = ({ticketId}: {ticketId: number}) => {
   return (
     <Button>
       <Pencil2Icon />
-      <Link href={`/tickets/${ticketId}/edit`}>Edit</Link>
+      <Link href={`/tickets/edit/${ticketId}`}>Edit</Link>
     </Button>
   );
 };
