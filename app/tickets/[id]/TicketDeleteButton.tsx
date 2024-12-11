@@ -12,7 +12,7 @@ const TicketDeleteButton = ({ ticketId }: { ticketId: number }) => {
           Delete
         </Button>
       </AlertDialog.Trigger>
-      <AlertDialog.Content>
+      <AlertDialog.Content>v
         <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
         <AlertDialog.Description>
           Are you sure? You want to delete this ticket?
