@@ -40,3 +40,32 @@ export const PATCH = async (
 
   return NextResponse.json(updatedTicket, { status: 200 });
 };
+
+
+export const DELETE = async (
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+
+
+
+  const ticket = await prisma.ticket.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!ticket) {
+    return NextResponse.json(
+      { error: "Invalid ticket" },
+      {
+        status: 404,
+      }
+    );
+  }
+
+  await prisma.ticket.delete({
+    where: {id: ticket.id}
+  });
+
+
+  return NextResponse.json({}, { status: 200 });
+};
