@@ -48,7 +48,6 @@ export const DELETE = async (
 ) => {
 
 
-
   const ticket = await prisma.ticket.findUnique({
     where: { id: parseInt(params.id) },
   });
