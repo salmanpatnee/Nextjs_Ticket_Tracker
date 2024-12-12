@@ -1,5 +1,13 @@
 "use client";
-import { Box, Container, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -40,11 +48,37 @@ const Navbar = () => {
             </ul>
           </Flex>
           <Box>
+            {status == "authenticated" && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger className="focus:outline-none hover:outline-none active:outline-none hover:bg-transparent active:bg-transparent focus:bg-transparent">
+                  <Button
+                    variant="ghost"
+                    className="focus:outline-none hover:outline-none active:outline-none hover:bg-transparent active:bg-transparent focus:bg-transparent"
+                  >
+                    <Avatar
+                      src={session.user!.image!}
+                      fallback="?"
+                      size="2"
+                      radius="full"
+                      className="cursor-pointer"
+                    />
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size="2">{session.user!.email}</Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item color="red">
+                    <Link href="/api/auth/signout" className="w-full">
+                      Logout
+                    </Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
             {status == "unauthenticated" && (
               <Link href="/api/auth/signin">Login</Link>
-            )}
-            {status == "authenticated" && (
-              <Link href="/api/auth/signout">Logout</Link>
             )}
           </Box>
         </Flex>
