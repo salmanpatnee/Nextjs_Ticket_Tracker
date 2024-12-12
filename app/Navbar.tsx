@@ -1,5 +1,5 @@
 "use client";
-import { Box, Container } from "@radix-ui/themes";
+import { Box, Container, Flex } from "@radix-ui/themes";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -17,26 +17,28 @@ const Navbar = () => {
   return (
     <nav className="border-b mb-5 h-14 px-5 flex items-center">
       <Container>
-        <div className="flex space-x-6 items-center">
-          <Link href="/">
-            <FaBug />
-          </Link>
-          <ul className="flex space-x-6">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  className={classNames({
-                    "text-zinc-900": link.href === pathName,
-                    "text-zinc-400": link.href !== pathName,
-                    "hover:text-zinc-800 transition-colors": true,
-                  })}
-                  href={link.href}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <Flex justify="between">
+          <Flex align="center" gap="6">
+            <Link href="/">
+              <FaBug />
+            </Link>
+            <ul className="flex space-x-6">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    className={classNames({
+                      "text-zinc-900": link.href === pathName,
+                      "text-zinc-400": link.href !== pathName,
+                      "hover:text-zinc-800 transition-colors": true,
+                    })}
+                    href={link.href}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Flex>
           <Box>
             {status == "unauthenticated" && (
               <Link href="/api/auth/signin">Login</Link>
@@ -45,7 +47,7 @@ const Navbar = () => {
               <Link href="/api/auth/signout">Logout</Link>
             )}
           </Box>
-        </div>
+        </Flex>
       </Container>
     </nav>
   );
