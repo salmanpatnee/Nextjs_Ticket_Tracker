@@ -1,80 +1,68 @@
 import authOptions from "@/app/auth/authOptions";
-import { ticketSchema } from "@/app/validationSchemas";
+import { patchTicketSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export const PATCH = async (
+export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({}, { status: 401 });
-  }
+  if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
-
-  const validation = ticketSchema.safeParse(body);
-
-  if (!validation.success) {
+  const validation = patchTicketSchema.safeParse(body);
+  if (!validation.success)
     return NextResponse.json(validation.error.format(), {
       status: 400,
     });
+
+  const { assignedToUserId, title, description } = body;
+
+  if (assignedToUserId) {
+    const user = await prisma.user.findUnique({
+      where: { id: assignedToUserId },
+    });
+    if (!user)
+      return NextResponse.json({ error: "Invalid user." }, { status: 400 });
   }
 
   const ticket = await prisma.ticket.findUnique({
     where: { id: parseInt(params.id) },
   });
-
-  if (!ticket) {
-    return NextResponse.json(
-      { error: "Invalid ticket" },
-      {
-        status: 404,
-      }
-    );
-  }
+  if (!ticket)
+    return NextResponse.json({ error: "Invalid ticket" }, { status: 404 });
 
   const updatedTicket = await prisma.ticket.update({
-    where: { id: parseInt(params.id) },
+    where: { id: ticket.id },
     data: {
-      title: body.title,
-      description: body.description,
-      priority: body.priority,
+      title,
+      description,
+      assignedToUserId,
     },
   });
 
-  return NextResponse.json(updatedTicket, { status: 200 });
-};
+  return NextResponse.json(updatedTicket);
+}
 
-export const DELETE = async (
+export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({}, { status: 401 });
-  }
+  if (!session) return NextResponse.json({}, { status: 401 });
 
   const ticket = await prisma.ticket.findUnique({
     where: { id: parseInt(params.id) },
   });
 
-  if (!ticket) {
-    return NextResponse.json(
-      { error: "Invalid ticket" },
-      {
-        status: 404,
-      }
-    );
-  }
+  if (!ticket)
+    return NextResponse.json({ error: "Invalid ticket" }, { status: 404 });
 
   await prisma.ticket.delete({
     where: { id: ticket.id },
   });
 
-  return NextResponse.json({}, { status: 200 });
-};
+  return NextResponse.json({});
+}
