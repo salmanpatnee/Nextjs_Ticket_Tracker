@@ -6,6 +6,7 @@ import TicketEditButton from "./TicketEditButton";
 import TicketDeleteButton from "./TicketDeleteButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
+import AssigneeSelect from "./AssigneeSelect";
 interface Props {
   params: { id: string };
 }
@@ -31,6 +32,7 @@ const TicketDetailPage = async ({ params }: Props) => {
       {session && (
         <Box className="col-span-1">
           <Flex direction="column" gap="3">
+            <AssigneeSelect/>
             <TicketEditButton ticketId={ticket.id} />
             <TicketDeleteButton ticketId={ticket.id} />
           </Flex>
