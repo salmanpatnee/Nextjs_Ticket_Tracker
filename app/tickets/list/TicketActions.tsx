@@ -1,13 +1,16 @@
 import { Box, Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
+import TicketPriorityFilter from "./TicketPriorityFilter";
 import TicketStatusFilter from "./TicketStatusFilter";
 
 const TicketActions = () => {
   return (
     <Flex mb="5" justify="between">
-      <Box>
+      <Flex gap="4">
         <TicketStatusFilter />
-      </Box>
+        <TicketPriorityFilter />
+      </Flex>
+      
       <Box>
         <Button>
           <Link href="/tickets/create">Add new ticket</Link>

@@ -2,9 +2,9 @@ import { Link, TicketPriorityBadge, TicketStatusBadge } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import TicketActions from "./TicketActions";
-import { Status } from "@prisma/client";
+import { Priority, Status } from "@prisma/client";
 interface Props {
-  searchParams : {status: Status}
+  searchParams : {status: Status, priority: Priority}
 }
 
 const TicketsPage = async ({searchParams}: Props) => {
@@ -12,8 +12,11 @@ const TicketsPage = async ({searchParams}: Props) => {
   const statuses = Object.values(Status)
   const status = statuses.includes(searchParams.status) ? searchParams.status : undefined;
 
+  const priorities = Object.values(Priority)
+  const priority = priorities.includes(searchParams.priority) ? searchParams.priority : undefined;
+
   const tickets = await prisma.ticket.findMany({
-    where: {status}
+    where: {status, priority}
   });
   
   return (
