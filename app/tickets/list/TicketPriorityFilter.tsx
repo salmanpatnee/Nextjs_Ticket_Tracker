@@ -1,7 +1,7 @@
 "use client";
 import { Priority, Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const priorities: { label: string; value?: Priority }[] = [
   { label: "All" },
@@ -13,10 +13,28 @@ const priorities: { label: string; value?: Priority }[] = [
 
 const TicketPriorityFilter = () => {
   const router = useRouter();
+
+  const searchParmas = useSearchParams();
+
   return (
-    <Select.Root
+    <Select.Root defaultValue={searchParmas.get('priority') || "0"}
       onValueChange={(priority) => {
-        const query = priority != "0" ? `?priority=${priority}` : "";
+        const params = new URLSearchParams();
+
+        if(priority) {
+          params.append('priority', priority)
+        }
+
+        if(searchParmas.get('orderBy')){
+          params.append('orderBy', searchParmas.get('orderBy')!)
+        }
+
+        if(searchParmas.get('status')){
+          params.append('status', searchParmas.get('status')!)
+        }
+
+        const query = params.size ? `?${params.toString()}` : ''
+
         router.push(`/tickets/list${query}`);
       }}
     >

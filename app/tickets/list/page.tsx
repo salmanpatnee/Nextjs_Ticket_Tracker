@@ -41,7 +41,6 @@ const TicketsPage = async ({ searchParams }: Props) => {
     .includes(searchParams.orderBy)
     ? { [searchParams.orderBy]: "asc" }
     : undefined;
-  // const orderBy = searchParams.orderBy ? {[searchParams.orderBy]: 'asc'} : undefined
 
   const tickets = await prisma.ticket.findMany({
     where: { status, priority },
