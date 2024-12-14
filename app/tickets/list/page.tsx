@@ -6,24 +6,10 @@ import TicketActions from "./TicketActions";
 import { Priority, Status, Ticket } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 interface Props {
-  searchParams: { status: Status; priority: Priority, orderBy: keyof Ticket };
+  searchParams: { status: Status; priority: Priority; orderBy: keyof Ticket };
 }
 
 const TicketsPage = async ({ searchParams }: Props) => {
-  const statuses = Object.values(Status);
-  const status = statuses.includes(searchParams.status)
-    ? searchParams.status
-    : undefined;
-
-  const priorities = Object.values(Priority);
-  const priority = priorities.includes(searchParams.priority)
-    ? searchParams.priority
-    : undefined;
-
-  const tickets = await prisma.ticket.findMany({
-    where: { status, priority },
-  });
-
   const columns: { label: string; value: keyof Ticket; className?: string }[] =
     [
       { label: "Ticket", value: "title" },
@@ -40,6 +26,28 @@ const TicketsPage = async ({ searchParams }: Props) => {
       },
     ];
 
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
+  const priorities = Object.values(Priority);
+  const priority = priorities.includes(searchParams.priority)
+    ? searchParams.priority
+    : undefined;
+
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
+    : undefined;
+  // const orderBy = searchParams.orderBy ? {[searchParams.orderBy]: 'asc'} : undefined
+
+  const tickets = await prisma.ticket.findMany({
+    where: { status, priority },
+    orderBy,
+  });
+
   return (
     <div>
       <TicketActions />
@@ -51,11 +59,15 @@ const TicketsPage = async ({ searchParams }: Props) => {
                 key={column.value}
                 className={column.className}
               >
-                <NextLink href={{
-                  query: {...searchParams, orderBy: column.value}
-                }}>
+                <NextLink
+                  href={{
+                    query: { ...searchParams, orderBy: column.value },
+                  }}
+                >
                   {column.label}
-                  {column.value === searchParams.orderBy && <ArrowUpIcon className="inline"/>}
+                  {column.value === searchParams.orderBy && (
+                    <ArrowUpIcon className="inline" />
+                  )}
                 </NextLink>
               </Table.ColumnHeaderCell>
             ))}
