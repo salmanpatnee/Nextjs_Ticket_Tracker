@@ -1,49 +1,71 @@
 import { Link, TicketPriorityBadge, TicketStatusBadge } from "@/app/components";
+import NextLink from "next/link";
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import TicketActions from "./TicketActions";
-import { Priority, Status } from "@prisma/client";
+import { Priority, Status, Ticket } from "@prisma/client";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 interface Props {
-  searchParams : {status: Status, priority: Priority}
+  searchParams: { status: Status; priority: Priority, orderBy: keyof Ticket };
 }
 
-const TicketsPage = async ({searchParams}: Props) => {
+const TicketsPage = async ({ searchParams }: Props) => {
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
 
-  const statuses = Object.values(Status)
-  const status = statuses.includes(searchParams.status) ? searchParams.status : undefined;
-
-  const priorities = Object.values(Priority)
-  const priority = priorities.includes(searchParams.priority) ? searchParams.priority : undefined;
+  const priorities = Object.values(Priority);
+  const priority = priorities.includes(searchParams.priority)
+    ? searchParams.priority
+    : undefined;
 
   const tickets = await prisma.ticket.findMany({
-    where: {status, priority}
+    where: { status, priority },
   });
-  
+
+  const columns: { label: string; value: keyof Ticket; className?: string }[] =
+    [
+      { label: "Ticket", value: "title" },
+      { label: "Status", value: "status", className: "hidden md:table-cell" },
+      {
+        label: "Priority",
+        value: "priority",
+        className: "hidden md:table-cell",
+      },
+      {
+        label: "Created",
+        value: "createdAt",
+        className: "hidden md:table-cell",
+      },
+    ];
+
   return (
     <div>
       <TicketActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell>Ticket</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Priority
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
+            {columns.map((column) => (
+              <Table.ColumnHeaderCell
+                key={column.value}
+                className={column.className}
+              >
+                <NextLink href={{
+                  query: {...searchParams, orderBy: column.value}
+                }}>
+                  {column.label}
+                  {column.value === searchParams.orderBy && <ArrowUpIcon className="inline"/>}
+                </NextLink>
+              </Table.ColumnHeaderCell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {tickets.map((ticket) => (
             <Table.Row key={ticket.id}>
               <Table.Cell>
-                <Link href={`/tickets/${ticket.id}`}>
-                  {ticket.title}
-                </Link>
+                <Link href={`/tickets/${ticket.id}`}>{ticket.title}</Link>
                 <div className="block md:hidden">
                   <TicketStatusBadge status={ticket.status} />{" "}
                   <TicketPriorityBadge priority={ticket.priority} />
@@ -65,5 +87,5 @@ const TicketsPage = async ({searchParams}: Props) => {
     </div>
   );
 };
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export default TicketsPage;
