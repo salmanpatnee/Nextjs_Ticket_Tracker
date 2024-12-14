@@ -1,13 +1,19 @@
-import { Button } from "@radix-ui/themes";
+import { Box, Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
+import TicketStatusFilter from "./TicketStatusFilter";
 
 const TicketActions = () => {
   return (
-    <div className="mb-5">
-      <Button>
-        <Link href="/tickets/create">Add new ticket</Link>
-      </Button>
-    </div>
+    <Flex mb="5" justify="between">
+      <Box>
+        <TicketStatusFilter />
+      </Box>
+      <Box>
+        <Button>
+          <Link href="/tickets/create">Add new ticket</Link>
+        </Button>
+      </Box>
+    </Flex>
   );
 };
 
