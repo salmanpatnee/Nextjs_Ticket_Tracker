@@ -7,12 +7,15 @@ import AssigneeSelect from "./AssigneeSelect";
 import TicketDeleteButton from "./TicketDeleteButton";
 import TicketDetails from "./TicketDetails";
 import TicketEditButton from "./TicketEditButton";
+import { cache } from 'react';
 interface Props {
   params: { id: string };
 }
 
+const fetchTicket = cache((ticketId: number) => prisma.ticket.findUnique({ where: { id: ticketId }}));
+
 export async function generateMetadata({ params }: Props) {
-  const ticket = await prisma.ticket.findUnique({ where: { id: parseInt(params.id) }});
+  const ticket = await fetchTicket(parseInt(params.id))
   return {
     title: ticket?.title,
     description: 'Get detailed information about specific tickets, including descriptions, status updates, comments, and attachments. Easily manage and update ticket progress for seamless issue resolution.'
@@ -22,11 +25,7 @@ export async function generateMetadata({ params }: Props) {
 const TicketDetailPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
 
-  const ticket = await prisma.ticket.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-  });
+  const ticket = await fetchTicket(parseInt(params.id))
 
   if (!ticket) {
     notFound();
