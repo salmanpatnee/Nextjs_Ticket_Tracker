@@ -1,14 +1,22 @@
+import authOptions from "@/app/auth/authOptions";
 import prisma from "@/prisma/client";
 import { Box, Flex, Grid } from "@radix-ui/themes";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import AssigneeSelect from "./AssigneeSelect";
+import TicketDeleteButton from "./TicketDeleteButton";
 import TicketDetails from "./TicketDetails";
 import TicketEditButton from "./TicketEditButton";
-import TicketDeleteButton from "./TicketDeleteButton";
-import { getServerSession } from "next-auth";
-import authOptions from "@/app/auth/authOptions";
-import AssigneeSelect from "./AssigneeSelect";
 interface Props {
   params: { id: string };
+}
+
+export async function generateMetadata({ params }: Props) {
+  const ticket = await prisma.ticket.findUnique({ where: { id: parseInt(params.id) }});
+  return {
+    title: ticket?.title,
+    description: 'Get detailed information about specific tickets, including descriptions, status updates, comments, and attachments. Easily manage and update ticket progress for seamless issue resolution.'
+  }
 }
 
 const TicketDetailPage = async ({ params }: Props) => {

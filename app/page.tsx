@@ -1,9 +1,9 @@
-import Image from "next/image";
-import LatestTickets from "./LatestTickets";
-import TicketSummary from "./TicketSummary";
 import prisma from "@/prisma/client";
-import TicketChart from "./TicketChart";
 import { Flex, Grid } from "@radix-ui/themes";
+import { Metadata } from "next";
+import LatestTickets from "./LatestTickets";
+import TicketChart from "./TicketChart";
+import TicketSummary from "./TicketSummary";
 
 export default async function Home() {
   const open = await prisma.ticket.count({
@@ -50,3 +50,9 @@ export default async function Home() {
     </Grid>
   );
 }
+
+
+export const metadata: Metadata = {
+  title: "Trackify Dashboard | Overview of Ticket Status",
+  description: "View a high-level overview of your ticketing system with key metrics like open, closed, and pending tickets. Monitor trends and recent activities to manage and prioritize tasks efficiently.",
+};

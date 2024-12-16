@@ -3,6 +3,7 @@ import Pagination from "@/app/components/Pagination";
 import prisma from "@/prisma/client";
 import { Priority, Status } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 import TicketActions from "./TicketActions";
 import TicketTable, { columnNames, TicketQuery } from "./TicketTable";
 interface Props {
@@ -54,3 +55,8 @@ const TicketsPage = async ({ searchParams }: Props) => {
 };
 export const dynamic = "force-dynamic";
 export default TicketsPage;
+
+export const metadata: Metadata = {
+  title: "Trackify | Manage and Track Support Tickets",
+  description: "Access and manage all your tickets in one place. Filter, sort, and search by ticket status, priority, and assignee to efficiently track and resolve support requests.",
+};
