@@ -5,8 +5,14 @@ import { Table } from "@radix-ui/themes";
 import TicketActions from "./TicketActions";
 import { Priority, Status, Ticket } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Pagination from "@/app/components/Pagination";
 interface Props {
-  searchParams: { status: Status; priority: Priority; orderBy: keyof Ticket };
+  searchParams: {
+    status: Status;
+    priority: Priority;
+    orderBy: keyof Ticket;
+    page: string;
+  };
 }
 
 const TicketsPage = async ({ searchParams }: Props) => {
@@ -36,21 +42,30 @@ const TicketsPage = async ({ searchParams }: Props) => {
     ? searchParams.priority
     : undefined;
 
+  const where = { status, priority };
+
   const orderBy = columns
     .map((column) => column.value)
     .includes(searchParams.orderBy)
     ? { [searchParams.orderBy]: "asc" }
     : undefined;
 
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
+
   const tickets = await prisma.ticket.findMany({
-    where: { status, priority },
+    where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
+
+  const ticketCount = await (await prisma.ticket.count({ where }))
 
   return (
     <div>
       <TicketActions />
-      <Table.Root variant="surface">
+      <Table.Root variant="surface" mb="5">
         <Table.Header>
           <Table.Row>
             {columns.map((column) => (
@@ -95,6 +110,11 @@ const TicketsPage = async ({ searchParams }: Props) => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={ticketCount}
+      />
     </div>
   );
 };
