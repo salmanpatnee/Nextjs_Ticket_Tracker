@@ -4,7 +4,7 @@ import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const priorities: { label: string; value?: Priority }[] = [
-  { label: "All" },
+  { label: "Filter by Priority..." },
   { label: "Low", value: "LOW" },
   { label: "Medium", value: "MEDIUM" },
   { label: "High", value: "HIGH" },
