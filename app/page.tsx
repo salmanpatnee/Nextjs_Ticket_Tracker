@@ -2,6 +2,7 @@ import Image from "next/image";
 import LatestTickets from "./LatestTickets";
 import TicketSummary from "./TicketSummary";
 import prisma from "@/prisma/client";
+import TicketChart from "./TicketChart";
 
 export default async function Home() {
   const open = await prisma.ticket.count({
@@ -32,14 +33,21 @@ export default async function Home() {
 
   return (
     // <LatestTickets/>
-    <TicketSummary
-      open={open}
-      inProgress={inProgress}
-      closed={closed}
-      low={low}
-      medium={medium}
-      high={high}
-      critical={critical}
-    />
+    // <TicketSummary
+    //   open={open}
+    //   inProgress={inProgress}
+    //   closed={closed}
+    //   low={low}
+    //   medium={medium}
+    //   high={high}
+    //   critical={critical}
+    // />
+
+    <TicketChart
+    open={open}
+    inProgress={inProgress}
+    closed={closed}
+
+  />
   );
 }
