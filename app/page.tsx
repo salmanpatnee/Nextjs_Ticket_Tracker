@@ -3,6 +3,7 @@ import LatestTickets from "./LatestTickets";
 import TicketSummary from "./TicketSummary";
 import prisma from "@/prisma/client";
 import TicketChart from "./TicketChart";
+import { Flex, Grid } from "@radix-ui/themes";
 
 export default async function Home() {
   const open = await prisma.ticket.count({
@@ -32,22 +33,20 @@ export default async function Home() {
   });
 
   return (
-    // <LatestTickets/>
-    // <TicketSummary
-    //   open={open}
-    //   inProgress={inProgress}
-    //   closed={closed}
-    //   low={low}
-    //   medium={medium}
-    //   high={high}
-    //   critical={critical}
-    // />
-
-    <TicketChart
-    open={open}
-    inProgress={inProgress}
-    closed={closed}
-
-  />
+    <Grid columns={{ initial: "1", md: "2" }} gap="5">
+      <Flex direction="column" gap="5">
+        <TicketSummary
+          open={open}
+          inProgress={inProgress}
+          closed={closed}
+          low={low}
+          medium={medium}
+          high={high}
+          critical={critical}
+        />
+        <TicketChart open={open} inProgress={inProgress} closed={closed} />
+      </Flex>
+      <LatestTickets />
+    </Grid>
   );
 }
