@@ -5,7 +5,7 @@ import TicketStatusFilter from "./TicketStatusFilter";
 
 const TicketActions = () => {
   return (
-    <Flex mb="5" justify="between">
+    <Flex justify="between">
       <Flex gap="4">
         <TicketStatusFilter />
         <TicketPriorityFilter />
