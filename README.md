@@ -38,7 +38,7 @@ npm install
 ### 4. Set up environment variables
 
 - Duplicate `.env.example` and rename it to `.env`
-  - Fill in your environment variables
+- Fill in your environment variables
 
 ### 5. Run the development server
 
@@ -53,10 +53,10 @@ Open your browser and go to: [http://localhost:3000](http://localhost:3000)
 ## 🛠️ Tech Stack
 
 - ⚛️ [Next.js](https://nextjs.org/)
-  - 💅 [Tailwind CSS](https://tailwindcss.com/)
-  - 🧠 [TypeScript](https://www.typescriptlang.org/)
-  - 🔎 [Prisma](https://www.prisma.io/)
-  - 📈 [Sentry](https://sentry.io/) (for monitoring)
+- 💅 [Tailwind CSS](https://tailwindcss.com/)
+- 🧠 [TypeScript](https://www.typescriptlang.org/)
+- 🔎 [Prisma](https://www.prisma.io/)
+- 📈 [Sentry](https://sentry.io/) (for monitoring)
 
 ---
 
@@ -66,10 +66,10 @@ Contributions, issues and feature requests are welcome!
 Here’s how you can help:
 
 1. 🍴 Fork the repo
-   2. 🔀 Create your feature branch: `git checkout -b feature/my-feature`
-   3. 💾 Commit your changes: `git commit -m 'Add some feature'`
-   4. 🚀 Push to the branch: `git push origin feature/my-feature`
-   5. 📝 Submit a pull request
+2. 🔀 Create your feature branch: `git checkout -b feature/my-feature`
+3. 💾 Commit your changes: `git commit -m 'Add some feature'`
+4. 🚀 Push to the branch: `git push origin feature/my-feature`
+5. 📝 Submit a pull request
 
 ---
 
@@ -85,7 +85,7 @@ See the [LICENSE](LICENSE) file for more details.
 **Salman Patnee**
 
 - GitHub: [@salmanpatnee](https://github.com/salmanpatnee)
-  - LinkedIn: [Salman Patnee](https://www.linkedin.com/in/salmanpatnee/)
+- LinkedIn: [Salman Patnee](https://www.linkedin.com/in/salmanpatnee/)
 
 ---
 
