@@ -8,10 +8,10 @@ A modern ticket tracking system built with **Next.js** — track ticket statuses
 ## ✨ Features
 
 - 📝 Create, update, and delete tickets
-  - 🔄 Track progress through ticket statuses
-  - 🔍 Filter and search tickets easily
-  - 📊 Visualize ticket data with interactive charts
-  - 🧩 Built with modern technologies and clean UI
+- 🔄 Track progress through ticket statuses
+- 🔍 Filter and search tickets easily
+- 📊 Visualize ticket data with interactive charts
+- 🧩 Built with modern technologies and clean UI
 
 ---
 
